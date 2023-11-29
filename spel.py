@@ -45,7 +45,7 @@ def main():
             print("Rum 3")
 
             Deras_val = input("")
-            if Deras_val == 1:
+            if Deras_val == "1":
                 r = Rum()
                 print(r.chest)
                 print(r.monster)
