@@ -1,6 +1,6 @@
 import random 
 
-class spelare:
+class Spelare:
     def __init__(self):
         self.hp = 100
         self.vapen = None
@@ -18,20 +18,52 @@ class spelare:
         self.hp += Heals
         print(f"Grattis! Du har nu hittat en heal som ger {Heals} hp och har nu {self.hp} HP")
 
-class rum:
+class Rum:
     def __init__(self):
         self.random = random.randint(1,11)
         if self.random <= 5:
-            self.monster = True
+            self.chest = None
+            self.monster = random.choice(["Troll", "Robot", "Kloakråttor", "Zombie Jesper"]) 
+
         else:
-            self.chest = True
-        self.monster = random.choice([None, "Troll", "Robot", "Kloakråttor", "Zombie Jesper"]) 
-        self.chest = random.choice(["Mini shield(25HP)", "Big pot(50HP)", "Chug Jug(100HP)", "Zweihander", "Greatsword", "Scavenger's Curved Sword"])
+            self.monster = None
+            self.chest = random.choice(["Mini shield(25HP)", "Big pot(50HP)", "Chug Jug(100HP)", "Zweihander", "Greatsword", "Scavenger's Curved Sword"])
+
+def main():
+        spelare = Spelare()
+        times_died = 0
+
+
+
+        while times_died < 1:
+            
+            current_room = Rum()
+
+            print("Välj ett rum")
+            print("Rum 1")
+            print("Rum 2")
+            print("Rum 3")
+
+            Deras_val = input("")
+            if Deras_val == 1:
+                r = Rum()
+                print(r.chest)
+                print(r.monster)
+
+
+
+
+
+
+
+
         
-
-
-
         
+            # Kod för rum, kistor, fights
+main()
+    
+
+
 
 
     
@@ -70,7 +102,6 @@ class rum:
             #1: [Monster(), Weapon(), Money()],
             #2: [Monster(), Weapon(), Money()],
             #3: [Monster(), Weapon(), Money()]
-        }
 
         #print(f"\nNivå {level}: Välj en dörr (1, 2 eller 3):")
         #door_choice = int(input())
