@@ -1,12 +1,25 @@
 import random 
 
+print("""                                                                                                                                                                      
+   █     █▓█████ ██▓    ▄████▄  ▒█████  ███▄ ▄███▓█████    ▄▄▄█████▓▒█████      ▄████▄  ▄▄▄     ▓█████ ██▓    ██▓█████▄ 
+  ▓█░ █ ░█▓█   ▀▓██▒   ▒██▀ ▀█ ▒██▒  ██▓██▒▀█▀ ██▓█   ▀    ▓  ██▒ ▓▒██▒  ██▒   ▒██▀ ▀█ ▒████▄   ▓█   ▀▓██▒   ▓██▒██▀ ██▌
+  ▒█░ █ ░█▒███  ▒██░   ▒▓█    ▄▒██░  ██▓██    ▓██▒███      ▒ ▓██░ ▒▒██░  ██▒   ▒▓█    ▄▒██  ▀█▄ ▒███  ▒██░   ▒██░██   █▌
+  ░█░ █ ░█▒▓█  ▄▒██░   ▒▓▓▄ ▄██▒██   ██▒██    ▒██▒▓█  ▄    ░ ▓██▓ ░▒██   ██░   ▒▓▓▄ ▄██░██▄▄▄▄██▒▓█  ▄▒██░   ░██░▓█▄   ▌
+  ░░██▒██▓░▒████░██████▒ ▓███▀ ░ ████▓▒▒██▒   ░██░▒████▒     ▒██▒ ░░ ████▓▒░   ▒ ▓███▀ ░▓█   ▓██░▒████░██████░██░▒████▓ 
+  ░ ▓░▒ ▒ ░░ ▒░ ░ ▒░▓  ░ ░▒ ▒  ░ ▒░▒░▒░░ ▒░   ░  ░░ ▒░ ░     ▒ ░░  ░ ▒░▒░▒░    ░ ░▒ ▒  ░▒▒   ▓▒█░░ ▒░ ░ ▒░▓  ░▓  ▒▒▓  ▒ 
+    ▒ ░ ░  ░ ░  ░ ░ ▒  ░ ░  ▒    ░ ▒ ▒░░  ░      ░░ ░  ░       ░     ░ ▒ ▒░      ░  ▒    ▒   ▒▒ ░░ ░  ░ ░ ▒  ░▒ ░░ ▒  ▒ 
+    ░   ░    ░    ░ ░  ░       ░ ░ ░ ▒ ░      ░     ░        ░     ░ ░ ░ ▒     ░         ░   ▒     ░    ░ ░   ▒ ░░ ░  ░ 
+      ░      ░  ░   ░  ░ ░         ░ ░        ░     ░  ░               ░ ░     ░ ░           ░  ░  ░  ░   ░  ░░    ░    
+                       ░ """)
+
 class Spelare:
     def __init__(self):
         self.hp = 100
         self.vapen = None
 
-    def Skada(self, Antal_skada):
-        self.hp -= Antal_skada
+    def skada(self, antal_skada):
+        self.hp -= antal_skada
+        print(f"Du har nu {self.hp} hp!")
         if self.hp <= 0:
             print(f"Game Over! Du har dött till {self.monster}")
     
@@ -20,137 +33,60 @@ class Spelare:
 
 class Rum:
     def __init__(self):
-        self.random = random.randint(1,11)
-        if self.random <= 5:
-            self.chest = None
+        self.random = random.randint(1,13)
+        if self.random <= 4:
+            self.chestvapen = None
+            self.chestheals = None
             self.monster = random.choice(["Troll", "Robot", "Kloakråttor", "Zombie Jesper"]) 
 
+        elif self.random <= 8:
+            self.monster = None
+            self.chestvapen = None
+            self.chestheals = random.choice(["Mini shield(25HP)", "Big pot(50HP)", "Chug Jug(100HP)"])
         else:
             self.monster = None
-            self.chest = random.choice(["Mini shield(25HP)", "Big pot(50HP)", "Chug Jug(100HP)", "Zweihander", "Greatsword", "Scavenger's Curved Sword"])
+            self.chestheals = None
+            self.chestvapen = random.choice(["Zweihander", "Greatsword", "Curved Blade", "Machete"])
+
 
 def main():
-        spelare = Spelare()
-        times_died = 0
+    spelare = Spelare()
+    times_died = 0
 
 
 
-        while times_died < 1:
+    while times_died < 1:
+        
+
+        print("Välj ett rum")
+        print("Rum 1")
+        print("Rum 2")
+        print("Rum 3")
+
+        Deras_val = input("-->")
+        if Deras_val == "1":
+            r = Rum()
+            print(r.chestheals)
+            print(r.chestvapen)
+            print(r.monster)
+            if r.monster != None:
+                val = input(f"Du har träffat på monstret {r.monster}. Vill du försöka springa eller slåss -->")
+                if val == "springa":
+                    antal_skada = random.randint(10,20)
+                    print(f"Du hann springa bor men har tagit {antal_skada} skada")
+                    spelare.skada
+                    print(f"Du har nu {spelare.hp} hp!")
+                elif val == "slåss": 
+                    if spelare.vapen != None:
+                        antal_skada = random.randint(0,20)
+                    elif spelare.vapen == None:
+                        print("Du har dött och förlorat spelet")
+                        times_died = 1
+                
             
-            current_room = Rum()
 
-            print("Välj ett rum")
-            print("Rum 1")
-            print("Rum 2")
-            print("Rum 3")
-
-            Deras_val = input("")
-            if Deras_val == "1":
-                r = Rum()
-                print(r.chest)
-                print(r.monster)
-
-
-
-
-
-
-
-
-        
-        
-            # Kod för rum, kistor, fights
+            elif r.chestvapen != None:
+                pass
+            elif r.chestheals != None:
+                pass
 main()
-    
-
-
-
-
-    
-    
-    
-
-
-
-
-
-
-
-#______________________________________________________________________________________________________________
- #Här under är chat gpt generad kod som vi kanske skulle kunna kolla igenom för att LÄRA oss av
-#import random
-
-#class Player:
-    #def __init__(self, name):
-        #self.name = name
-        #self.health = 100
-        #self.stamina = 100
-        #self.weapon_damage = 20  # Du kan ändra detta värde beroende på vapnets styrka
-
-    #def take_damage(self, damage):
-        #self.health -= damage
-        #if self.health <= 0:
-            #print(f"Game Over! {self.name}, du har förlorat all hälsa.")
-
-    #def print_status(self):
-        #print(f"{self.name}'s Status:")
-        #print(f"Health: {self.health}")
-        #print(f"Stamina: {self.stamina}")
-
-    #def choose_door(self, level):
-        #things_behind_doors = {
-            #1: [Monster(), Weapon(), Money()],
-            #2: [Monster(), Weapon(), Money()],
-            #3: [Monster(), Weapon(), Money()]
-
-        #print(f"\nNivå {level}: Välj en dörr (1, 2 eller 3):")
-        #door_choice = int(input())
-        
-        #if 1 <= door_choice <= 3:
-            #thing_found = random.choice(things_behind_doors[level])
-            #print(f"Bakom dörr {door_choice} hittade du: {thing_found}")
-            #if isinstance(thing_found, Monster):
-                #self.take_damage(thing_found.damage)
-            #elif isinstance(thing_found, Weapon):
-                #self.weapon_damage += thing_found.damage_bonus
-            #elif isinstance(thing_found, Money):
-                #print(f"Du hittade {thing_found.amount} guld!")
-
-        #else:
-            #print("Ogiltigt val. Välj en dörr mellan 1, 2 eller 3.")
-
-#class Monster:
-    #def __init__(self):
-        #self.name = "Monster"
-        #self.damage = random.randint(10, 20)
-        #self.health = random.randint(50, 100)
-
-    #def __str__(self):
-        #return f"{self.name} med {self.health} liv och {self.damage} skada"
-
-#class Weapon:
-    #def __init__(self):
-#       self.damage_bonus = random.randint(5, 10)
-#
- #   def __str__(self):
-  #      return f"{self.name} med {self.damage_bonus} bonus skada"
-#
-#class Money:
- #   def __init__(self):
-  #      self.name = "Pengar"
-   #     self.amount = random.randint(1, 100)
-#
- #   def __str__(self):
-  #      return f"{self.name}: {self.amount} guld"
-#
-## Början av spelet
-#player_name = input("Vad är ditt namn? ")
-#player = Player(player_name)
-
-# Visa spelarens status i början av spelet
-#player.print_status()
-
-# Spela nivå 1
-#player.choose_door(1)
-
-# Fortsätt med resten av spelet och implementera logiken för andra nivåer om det behövs.
