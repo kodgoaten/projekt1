@@ -116,7 +116,7 @@ class Spelare:
     
     def heal(self, heals):
         self.hp += heals
-        if self.hp < 100:
+        if self.hp >= 100:
             self.hp = 100
 
 class Rum:
@@ -139,13 +139,13 @@ class Rum:
 
 def main():
     spelare = Spelare()
-    
-
+    fix = 0
+    print("Välj ett rum")
 
     while spelare.död() == False:
         
 
-        print("Välj ett rum")
+        
         print("1. Rum 1")
         print("2. Rum 2")
         print("3. Rum 3")
@@ -153,14 +153,14 @@ def main():
         Deras_val = input("-->")
         if Deras_val == "1" or Deras_val == "2" or Deras_val == "3":
             r = Rum()
-            print(r.chestheals)
-            print(r.chestvapen)
-            print(r.monster)
+            (r.chestheals)
+            (r.chestvapen)
+            (r.monster)
             if r.monster != None:
                 val = input(f"Du har träffat på monstret {r.monster}. Vill du försöka 1. springa bort eller 2. slåss -->")
                 if val == "springa bort" or val == "1":
                     antal_skada = random.randint(10,20)
-                    print(f"Du hann springa bor men har tagit {antal_skada} skada")
+                    print(f"Du hann springa bort men har tagit {antal_skada} skada")
                     spelare.skada(antal_skada)
                     if (spelare.död()):
                             print(f"{text_to_print2}")
@@ -170,13 +170,16 @@ def main():
                     if spelare.vapen != None:
                         antal_skada = random.randint(0,30)
                         spelare.skada(antal_skada)
-                        print(f"Du tog {antal_skada} skada")
                         if (spelare.död()):
                             delayed_print2_green(text_to_print2, delay)
+                        elif antal_skada == 0:
+                            print(f"Bra jobbat du lyckades besegra {r.monster} utan att ta någon skada")
                         else:
+                            print(f"Bra jobbat du lyckades besegra {r.monster}, men du tog {antal_skada} skada")
+
                             print(f"Du har nu {spelare.hp} hp!")
                     elif spelare.vapen == None:
-                        print(f"Du dog till {r.monster} eftersom att du inte hade något vapen och har därför förlorat spelet")
+                        print(f"Du dog till {r.monster} eftersom att du inte hade något vapen")
                         antal_skada = 100
                         spelare.skada(antal_skada)
                         if (spelare.död()):
@@ -187,7 +190,7 @@ def main():
 
             elif r.chestvapen != None:
                 if spelare.vapen == None:
-                    print(f"Grattis du har hittat vapnet {r.chestvapen}")
+                    print(f"Grattis! Du har hittat vapnet {r.chestvapen}")
                     spelare.vapen = r.chestvapen
                 else:
                     vapen_val = input(f"Du har hittat vapnet {r.chestvapen}, vill du byta ut ditt vapen, {spelare.vapen}, för ett nytt vapen? ja eller nej-->")
@@ -202,12 +205,31 @@ def main():
 
 
                 
-            elif r.chestheals != None:
+            elif r.chestheals != None and spelare.hp < 100:
                 if r.chestheals == "Mini shield(15HP)":
+                    antal_heals = 15
+                    spelare.heal(antal_heals)
+                elif r.chestheals == "Big pot(30HP)":
+                    antal_heals = 30
+                    spelare.heal(antal_heals)
+                else:
+                    antal_heals = 60
+                    spelare.heal(antal_heals)
+                print(f"Grattis! Du har hittat en {r.chestheals} och har nu {spelare.hp} hp")
+            
+            else: 
+                 print("Rummet hade ingenting i sig, men det finns tre till dörrar som du kan välja mellan för att gå in i ett nytt rum, vilket rum väljer du?")
+                 fix += 1
+
+        if spelare.död() == False and fix == 0:  
+            print("Det finns inget mer i det här rummet, men det finns tre till dörrar som du kan välja mellan för att gå in i ett nytt rum, vilket rum väljer du?")
+
+                
+
                     
                     
 
-                    print(f"Grattis! Du har nu hittat en heal som ger hp och har nu {spelare.hp} HP")
+                    
 main()
 
 
