@@ -1,5 +1,5 @@
 import random 
-
+import pygame
 import time
 
 def delayed_print_green(text, delay=0.1):
@@ -188,7 +188,14 @@ def main():
                         antal_skada = 100
                         spelare.skada(antal_skada)
                         if (spelare.död()):
+                            pygame.init()
+                            mp3_file = "nightmare-jumpscare.mp3"
+                            pygame.mixer.music.load(mp3_file)
+                            pygame.mixer.music.set_volume(1.0)
+                            pygame.mixer.music.play()
                             delayed_print2_green(text_to_print2, delay)
+                            time.sleep(5)
+                            pygame.mixer.quit()
 
                 
             
