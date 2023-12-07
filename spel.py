@@ -139,10 +139,12 @@ class Rum:
 
 def main():
     spelare = Spelare()
+    monsters_döda = 0
     fix = 0
+    
     print("Välj ett rum")
 
-    while spelare.död() == False:
+    while spelare.död() == False and monsters_döda <= random.randint(10,15):
         
 
         
@@ -160,24 +162,27 @@ def main():
                 val = input(f"Du har träffat på monstret {r.monster}. Vill du försöka 1. springa bort eller 2. slåss -->")
                 if val == "springa bort" or val == "1":
                     antal_skada = random.randint(10,20)
-                    print(f"Du hann springa bort men har tagit {antal_skada} skada")
                     spelare.skada(antal_skada)
                     if (spelare.död()):
+                            print(f"Du dog av monstret{r.monster} efter att du tog {antal_skada} skada och hade inget hp kvar")
                             print(f"{text_to_print2}")
                     else:
+                        print(f"Du hann springa bort men har tagit {antal_skada} skada")
                         print(f"Du har nu {spelare.hp} hp!")
                 elif val == "slåss" or val == "2": 
                     if spelare.vapen != None:
                         antal_skada = random.randint(0,30)
                         spelare.skada(antal_skada)
                         if (spelare.död()):
+                            print(f"Du dog av monstret{r.monster} efter att du tog {antal_skada} skada och hade inget hp kvar")
                             delayed_print2_green(text_to_print2, delay)
                         elif antal_skada == 0:
                             print(f"Bra jobbat du lyckades besegra {r.monster} utan att ta någon skada")
                         else:
                             print(f"Bra jobbat du lyckades besegra {r.monster}, men du tog {antal_skada} skada")
-
                             print(f"Du har nu {spelare.hp} hp!")
+                        
+                            
                     elif spelare.vapen == None:
                         print(f"Du dog till {r.monster} eftersom att du inte hade något vapen")
                         antal_skada = 100
@@ -188,11 +193,11 @@ def main():
                 
             
 
-            elif r.chestvapen != None:
+            elif r.chestvapen != None and r.chestvapen != spelare.vapen:
                 if spelare.vapen == None:
                     print(f"Grattis! Du har hittat vapnet {r.chestvapen}")
                     spelare.vapen = r.chestvapen
-                else:
+                elif spelare.vapen != None:
                     vapen_val = input(f"Du har hittat vapnet {r.chestvapen}, vill du byta ut ditt vapen, {spelare.vapen}, för ett nytt vapen? ja eller nej-->")
                     if vapen_val == "ja":
                         spelare.vapen = r.chestvapen
