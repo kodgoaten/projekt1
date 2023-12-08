@@ -220,7 +220,7 @@ def main():
                         antal_skada = random.randint(0,40)
                         spelare.skada(antal_skada)
                         if (spelare.död()):
-                            print(f"Du dog av monstret{r.monster} efter att du tog {antal_skada} skada och hade inget hp kvar")
+                            print(f"Du dog av monstret {r.monster} efter att du tog {antal_skada} skada och hade inget hp kvar")
                             delayed_print2_green(text_to_print2, delay)
                         elif antal_skada == 0:
                             print(f"Bra jobbat du lyckades besegra {r.monster} utan att ta någon skada")
