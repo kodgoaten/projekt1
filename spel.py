@@ -112,25 +112,33 @@ class Spelare:
     
     def ta_upp_vapen(self, vapen):
         self.vapen = vapen
-        print(f"Du hitta ett {vapen}")
     
     def heal(self, heals):
         self.hp += heals
         if self.hp >= 100:
             self.hp = 100
+    def vapen_information(self):
+        if self.vapen == "Zweihander":
+            print("Zweihander ökar chansen att döda monster utan att ta någon skada")
+        elif self.vapen == "Greatsword":
+            print("Greatsword ger dig 5 mer HP efter varje rum du besöker")
+        elif self.vapen == "Machete":
+            print("Machete gör dig snabbare och därför tar mindre skada när du springer bort från monster")
+        elif self.vapen == "Greatsword":
+            print("Greatsword ")
 
 class Rum:
     def __init__(self):
-        self.random = random.randint(1,13)
-        if self.random <= 6:
+        self.random = random.randint(1,10)
+        if self.random <= 5:
             self.chestvapen = None
             self.chestheals = None
             self.monster = random.choice(["Troll", "Robot", "Kloakråttor", "Zombie Jesper"]) 
 
-        elif self.random <= 9:
+        elif self.random <= 8:
             self.monster = None
             self.chestvapen = None
-            self.chestheals = random.choice(["Mini shield(15HP)", "Big pot(30HP)", "Chug Jug(50HP)"])
+            self.chestheals = random.choice(["Mini shield(15HP)", "Big pot(25HP)", "Chug Jug(35HP)"])
         else:
             self.monster = None
             self.chestheals = None
@@ -161,7 +169,10 @@ def main():
             if r.monster != None:
                 val = input(f"Du har träffat på monstret {r.monster}. Vill du försöka 1. springa bort eller 2. slåss -->")
                 if val == "springa bort" or val == "1":
-                    antal_skada = random.randint(10,20)
+                    if spelare.vapen == "Machete":
+                        antal_skada = random.randint(1,8)
+                    else:
+                        antal_skada = random.randint(10,20)
                     spelare.skada(antal_skada)
                     if (spelare.död()):
                             print(f"Du dog av monstret{r.monster} efter att du tog {antal_skada} skada och hade inget hp kvar")
@@ -169,7 +180,9 @@ def main():
                     else:
                         print(f"Du hann springa bort men har tagit {antal_skada} skada")
                         print(f"Du har nu {spelare.hp} hp!")
+
                 elif val == "slåss" or val == "2": 
+                    
                     if spelare.vapen != None and spelare.vapen != "Zweihander":
                         antal_skada = random.randint(0,35)
                         spelare.skada(antal_skada)
@@ -183,8 +196,7 @@ def main():
                             print(f"Bra jobbat du lyckades besegra {r.monster}, men du tog {antal_skada} skada")
                             print(f"Du har nu {spelare.hp} hp!")
                             monster_döda += 1
-                        
-                            
+                          
                     elif spelare.vapen == None:
                         print(f"Du dog till {r.monster} eftersom att du inte hade något vapen")
                         antal_skada = 100
@@ -200,15 +212,21 @@ def main():
                             pygame.mixer.quit()
 
                     elif spelare.vapen == "Zweihander":
-                        Zweihander_1shot = random.randint(1,5)
+                        Zweihander_1shot = random.randint(1,4)
                         if Zweihander_1shot == 1:
                             spelare.skada(0)
-                            print(f"Bra jobbat du lyckades besegra {r.monster} utan att ta någon skada, tack vare ditt vapen {spelare.vapen}")
+                            print(f"Bra jobbat du lyckades besegra {r.monster} utan att ta någon skada, eftersom du har vapnet {spelare.vapen}")
                             monster_döda += 1
                         else: 
-                            print(f"Bra jobbat du lyckades besegra {r.monster}, men du tog {antal_skada} skada")
-                            print(f"Du har nu {spelare.hp} hp!")
-                            monster_döda += 1
+                            antal_skada = random.randint(1,35)
+                            spelare.skada(antal_skada)
+                            if (spelare.död()):
+                                print(f"Du dog av monstret{r.monster} efter att du tog {antal_skada} skada och hade inget hp kvar")
+                                delayed_print2_green(text_to_print2, delay)
+                            else:
+                                print(f"Bra jobbat du lyckades besegra {r.monster}, men du tog {antal_skada} skada")
+                                print(f"Du har nu {spelare.hp} hp!")
+                                monster_döda += 1
 
 
                 
@@ -219,13 +237,15 @@ def main():
                     print(f"Grattis! Du har hittat vapnet {r.chestvapen}")
                     spelare.vapen = r.chestvapen
                 elif spelare.vapen != None:
-                    vapen_val = input(f"Du har hittat vapnet {r.chestvapen}, vill du byta ut ditt vapen, {spelare.vapen}, för ett nytt vapen? 1.ja, 2.nej -->")
+                    vapen_val = input(f"Du har hittat vapnet {r.chestvapen}, vill du byta ut ditt vapen, {spelare.vapen}, för ett nytt vapen? 1.ja, 2.nej, eller 3. information om vapnena -->")
                     if vapen_val == "ja" or vapen_val == "1":
                         spelare.vapen = r.chestvapen
                         print(f"Du har nu vapnet {spelare.vapen}")
                     elif vapen_val == "nej" or vapen_val == "2":
                         print(f"Du har kvar vapnet {spelare.vapen}")
-                    
+                    elif vapen_val == "information" or vapen_val == 3:
+                        
+                        
 
 
 
@@ -236,10 +256,10 @@ def main():
                     antal_heals = 15
                     spelare.heal(antal_heals)
                 elif r.chestheals == "Big pot(30HP)":
-                    antal_heals = 30
+                    antal_heals = 25
                     spelare.heal(antal_heals)
                 else:
-                    antal_heals = 50
+                    antal_heals = 35
                     spelare.heal(antal_heals)
                 print(f"Grattis! Du har hittat en {r.chestheals} och har nu {spelare.hp} hp")
             
@@ -259,7 +279,7 @@ def main():
 
 
 
-        if spelare.vapen == "Greatsword" and spelare.hp != 100 and Deras_val != "0":
+        if spelare.vapen == "Greatsword" and spelare.hp != 100 and spelare.vapen >= 1 and Deras_val != "0":
             antal_heals = 5
             spelare.heal(antal_heals)
             print("Greatsword har gett dig 5 mer hp")
