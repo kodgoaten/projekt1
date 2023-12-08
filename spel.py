@@ -100,6 +100,7 @@ class Spelare:
     def __init__(self):
         self.hp = 100
         self.vapen = None
+        
 
     def skada(self, antal_skada):
         self.hp -= antal_skada
@@ -117,6 +118,7 @@ class Spelare:
         self.hp += heals
         if self.hp >= 100:
             self.hp = 100
+
     def vapen_information(self, vapen):
         self.vapen = vapen
         if self.vapen == "Zweihander":
@@ -144,7 +146,7 @@ class Rum:
             self.monster = None
             self.chestheals = None
             self.chestvapen = random.choice(["Zweihander", "Greatsword", "Curved Blade", "Machete"])
-    
+        
     def vapen_information2(self, chestvapen):
         if chestvapen == "Zweihander":
             print("Zweihander ökar chansen att döda monster utan att ta någon skada")
@@ -154,9 +156,25 @@ class Rum:
             print("Machete gör dig snabbare och därför tar mindre skada när du springer bort från monster")
         elif chestvapen == "Curved Blade":
             print("Curved Blade är bra på att döda draken")
+    
+class Drake:
+    def __init__(self):
+        self.drakhp = 200
+    
+    def drak_skada(self, drak_skadad):
+        self.drakhp -= drak_skadad
+    
+    def drake_död(self):
+        if self.drakhp <= 0:
+            return True
+        else:
+            return False
+    
+    
 
 def main():
     spelare = Spelare()
+    drake = Drake()
     monster_döda = 0
     fix = 0
     
@@ -167,7 +185,7 @@ def main():
     print("Välj ett rum eller kolla dina stats")
     
 
-    while spelare.död() == False and monster_döda <= random.randint(10,15):
+    while spelare.död() == False and monster_döda <= 1:
         
 
         print("0. Stats")
@@ -313,14 +331,97 @@ def main():
 
 
 
-        if spelare.död() == False and fix == 0 and Deras_val != "0":  
+        if spelare.död() == False and fix == 0 and Deras_val != "0" and monster_döda <= 1:  
             print("Det finns inget mer i det här rummet, men det finns tre till dörrar som du kan välja mellan för att gå in i ett nytt rum, vilket rum väljer du?")
 
                 
 
                     
+    
+    
+    if spelare.död() == False:
+        print("DRAKEN HAR SPAWNAT")
         
+        while spelare.död() == False and drake.drake_död() == False:
+            drak_attack1 = input("Draken går för attack. Du kan välja att 1. försöka undvika hans attack eller 2. försöka attackera draken istället-->")
+            if drak_attack1 == "1" and spelare.vapen != "Machete":
+                snabb = random.randint(0,1)
+                if snabb == 0:
+                    antal_skada = 0
+                    spelare.skada(antal_skada)
+                else:
+                    antal_skada = 50
+                    spelare.skada(antal_skada)
+                
+                
+                if antal_skada == 0:
+                    print(f"Du lyckades undvika drakens attack")
+                    drak_skadad = 50
+                    drake.drak_skada(drak_skadad)
+                    if (drake.drake_död()):
+                        print(f"Du attackerade draken tillbaka efter och gjorde {drak_skadad} så att draken fick 0 HP och dog")
+                        print("Grattis du har vunnit spelet")
+                    else:
+                        print(f"Du attackerade draken tillbaka efter och gjorde {drak_skadad} så att draken har nu {drake.drakhp} hp")
 
+                elif antal_skada == 50 and spelare.död() == False:
+                    print(f"Du lyckades inte undvika attacken och tog då {antal_skada} och har nu {spelare.hp}")
+                elif (spelare.död()):
+                    print(f"Du dog av Draken efter att du tog {antal_skada} skada och hade inget hp kvar")
+                    delayed_print2_green(text_to_print2, delay)
+                
+
+            elif drak_attack1 == "1" and spelare.vapen == "Machete":
+                snabb = random.randint(0,2)
+                if snabb <= 1:
+                    antal_skada = 0
+                    spelare.skada(antal_skada)
+                else:
+                    antal_skada = 50
+                    spelare.skada(antal_skada)
+                
+                if antal_skada == 0:
+                    print(f"Du lyckades undvika drakens attack")
+                    drak_skadad = 50
+                    drake.drak_skada(drak_skadad)
+                    if (drake.drake_död()):
+                        print(f"Du attackerade draken tillbaka efter och gjorde {drak_skadad} skada så att draken fick 0 HP och dog")
+                        print("Grattis du har vunnit spelet")
+                    else:
+                        print(f"Du attackerade draken tillbaka efter och gjorde {drak_skadad} skada så att draken har nu {drake.drakhp} hp")
+            elif drak_attack1 == "2" and spelare.vapen != "Curved Blade":
+                antal_skada = random.randint(1,50)
+                spelare.skada(antal_skada)
+                drak_skadad = random.randint(1,50)
+                drake.drak_skada(drak_skadad)
+                if (spelare.död()):
+                    print(f"Du dog av Draken efter att du tog {antal_skada} skada och hade inget hp kvar")
+                    delayed_print2_green(text_to_print2, delay)
+                elif (drake.drake_död()):
+                    print("Grattis du har vunnit spelet")
+                else:
+                    print(f"Du tog {antal_skada} och har nu {spelare.hp} hp")
+                    print(f"Draken tog {drak_skadad} och har nu {drake.drakhp} hp")
+            elif drak_attack1 == "2" and spelare.vapen == "Curved Blade":
+                antal_skada = random.randint(1,50)
+                spelare.skada(antal_skada)
+                drak_skadad = random.randint(50,100)
+                drake.drak_skada(drak_skadad)
+                if (spelare.död()):
+                    print(f"Du dog av Draken efter att du tog {antal_skada} skada och hade inget hp kvar")
+                    delayed_print2_green(text_to_print2, delay)
+                elif (drake.drake_död()):
+                    print(f"Draken tog {drak_skadad} och har därför inget hp kvar")
+                    print("Grattis du har vunnit spelet")  
+                else:
+                    print(f"Du tog {antal_skada} och har nu {spelare.hp} hp")
+                    print(f"Draken tog {drak_skadad} och har nu {drake.drakhp} hp")
+            
+
+                
+
+                    
+             
                     
 main()
 
