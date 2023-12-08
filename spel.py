@@ -125,7 +125,7 @@ class Spelare:
         elif self.vapen == "Machete":
             print("Machete gör dig snabbare och därför tar mindre skada när du springer bort från monster")
         elif self.vapen == "Greatsword":
-            print("Greatsword ")
+            print("Greatsword är bra på att döda draken")
 
 class Rum:
     def __init__(self):
@@ -143,7 +143,16 @@ class Rum:
             self.monster = None
             self.chestheals = None
             self.chestvapen = random.choice(["Zweihander", "Greatsword", "Curved Blade", "Machete"])
-
+    
+    def vapen_information2(self):
+        if self.chestvapen == "Zweihander":
+            print("Zweihander ökar chansen att döda monster utan att ta någon skada")
+        elif self.chestvapen == "Greatsword":
+            print("Greatsword ger dig 5 mer HP efter varje rum du besöker")
+        elif self.chestvapen == "Machete":
+            print("Machete gör dig snabbare och därför tar mindre skada när du springer bort från monster")
+        elif self.chestvapen == "Greatsword":
+            print("Greatsword är bra på att döda draken")
 
 def main():
     spelare = Spelare()
@@ -243,8 +252,11 @@ def main():
                         print(f"Du har nu vapnet {spelare.vapen}")
                     elif vapen_val == "nej" or vapen_val == "2":
                         print(f"Du har kvar vapnet {spelare.vapen}")
-                    elif vapen_val == "information" or vapen_val == 3:
-                        
+                    elif vapen_val == "information" or vapen_val == "3":
+                        print("Ditt vapen:")
+                        spelare.vapen_information(spelare.vapen)
+                        print("Vapnet du hitta:")
+                        r.vapen_information2(r.chestvapen)
                         
 
 
