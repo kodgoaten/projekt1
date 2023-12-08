@@ -185,7 +185,7 @@ def main():
     print("Välj ett rum eller kolla dina stats")
     
 
-    while spelare.död() == False and monster_döda <= 1:
+    while spelare.död() == False and monster_döda <= 15:
         
 
         print("0. Stats")
@@ -331,7 +331,7 @@ def main():
 
 
 
-        if spelare.död() == False and fix == 0 and Deras_val != "0" and monster_döda <= 1:  
+        if spelare.död() == False and fix == 0 and Deras_val != "0" and monster_döda <= 15:  
             print("Det finns inget mer i det här rummet, men det finns tre till dörrar som du kan välja mellan för att gå in i ett nytt rum, vilket rum väljer du?")
 
                 
